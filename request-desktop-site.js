@@ -14,7 +14,7 @@ Here's an example viewport tag <meta name="viewport" content="width=device-width
         ismobile = / mobile/i.test(ua), //android and firefox mobile both use android in their UA, and both remove it from the UA in their "pretend desktop mode"
         mgecko = !!( / gecko/i.test(ua) && / firefox\//i.test(ua)), //test for firefox
         wasmobile = c('wasmobile') === "was", //save the fact that the browser once claimed to be mobile
-        desktopvp = 'user-scalable=yes, maximum-scale=2',
+        desktopvp = 'user-scalable=yes, width=1000, minimum-width=1000',
         el;
 
     if(ismobile && !wasmobile){

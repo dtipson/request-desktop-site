@@ -5,16 +5,16 @@ Exploit how "request a desktop site" works on mobile browsers to let them break 
 
 ##What?
 
-Enable the "Request Desktop Site" functions on mobile chrome (android and iOS) allow users to see desktop layouts on responsive sites.  Note that this is distinct from "opt out of mobile!" buttons built into your site: this is meant to work with the browser's native opt-in/opt-out functionality.
+This is a simple bit of code that will enable the "Request Desktop Site" functions on mobile chrome (android and iOS) to allow users to see desktop-width layouts on responsive sites.  Note that this is distinct from server-side "opt out of mobile!" buttons built into your site: this is meant to work with some explotable quirks in a mobile browser's native opt-in/opt-out functionality.
 
-Since these functions work, in part, by simply spoofing the user agent to pretend to be desktop browsers, all we have to do is just remember that the browser once claimed to be android earlier in the same session and then alter the viewport tag in response to its fib.
+Since these functions work, in part, by simply spoofing the user agent to pretend to be desktop browsers (they are primarily designed to get SERVERS to forward the browser to something like a m.sitedomain.com version of the site), all we have to do is just remember that the browser *once* claimed to be android earlier in the same session and then alter the viewport tag in response to its grotesque lie.
 
-Here's an example viewport tag `<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">` that we'd be setting to scaleable-yes,max scale=2.  That's just an example of something that works on the site I was building: you should customize the "desktop" viewport content setting to whatever works for your site's needs.  If you wanted, you could stick this code in the head just after the primary viewport tag so that the browser doesn't have to re-render the page so much.  Myself, I prefer to leave it at the bottom, since it's a non-critical, probably rarely used, feature at this point: those people who do use it can handle a little extra repaint time.  I was surprised that the Firefox workaround actually works with the code outside of the head, but it does.
+Here's an example viewport tag `<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">` that we'd be setting to `user-scalable=yes, width=1000, minimum-width=1000` via a script.  That particular "desktop" viewport is just an example of something that works on the site I was building: you should customize the "desktop" viewport content setting to whatever works for your site's needs and you guess would work well on all browsers (if you want to get more dynamic, you can try to measure the viewport and pixel density and dynamically set different viewport tags: definitely DO experiment, what I've chosen in this repo isn't necessarily your/the right answer!).  If you wanted, you could just stick this code in the head just after the primary viewport tag so that the browser doesn't have to re-render the page so much.  Myself, I prefer to leave it at the bottom, since it's a non-critical, probably rarely used, feature at this point: those people who do use it can handle a little extra repaint time.  I was surprised that the Firefox workaround actually works with the code outside of the head... but it does.
 
 
 ##Hunh?
 
-Here's some examples of what browsers are doing:
+Here's some examples of what browsers are actually doing when a user selects the "request a desktop site" option:
 
 iOS (iPad):
 Mozilla/5.0 (iPad; CPU OS 7_0_3 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) CriOS/30.0.1599.16 Mobile/11B511 Safari/8536.25 (9E5413BC-7DB8-4B71-B876-69EDA4BAC03D)
@@ -25,7 +25,6 @@ Chrome for Android:
 Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76K) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19
 request desktop site changes it to:
 Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.45 Safari/535.19
-
 
 
 Firefox for Android has a similar feature that does switch the UA in exactly the way that this script should help with. Example:
